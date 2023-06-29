@@ -411,7 +411,8 @@ We divide the schematic into 5 sections for convenience:
 \newpage
 \subsection{Input Stage}
 \tab The Input Stage includes a fuse and a non-inverting Op-Amp amplifier. The fuse is essentially a measure to protect the guitar from any large surge of current in case the experimentation in the pedal main amplification stages causes one. The non-inverting amplifier with a potentiometer in the feedback path lets us control the input volume that is being fed into the grid of the first tube amplification stage thus giving us more control on over-driving the tube or not. Moreover a non-inverting amplifier is chosen so that the amount of current drawn from the guitar pickup itself is minimized.
-\begin{center}\includegraphics[width=0.8\textwidth]{}\end{center}
+\begin{center}\includegraphics[height=8cm]{sch_input.png}\\\small{Figure 1: Schematic - Input Stage}\end{center}
+\tab As for the values of used, we estimate that 150mA is a safe amount of current to flow (even though not much should flow because we have connect it such that not much current will flow). The non-inverting amplifier's R1 and RP2 values are chosen to emulate the typical range of the output impedance of guitar pickups ($5\text{k}\Omega - 25\text{k}\Omega$). Moreover, R4 is chosen to allow an input volume control from 0.5$\times$ to 2.5$\times$
 \subsection{Tube Amplification Stages}
 \subsection{Tone Control}
 \subsection{Output Stage}
