@@ -412,13 +412,13 @@ We divide the schematic into 5 sections for convenience:
 \subsection{Input Stage}
 \tab The Input Stage includes a fuse and a non-inverting Op-Amp amplifier. The fuse is essentially a measure to protect the guitar from any large surge of current in case the experimentation in the pedal main amplification stages causes one. The non-inverting amplifier with a potentiometer in the feedback path lets us control the input volume that is being fed into the grid of the first tube amplification stage thus giving us more control on over-driving the tube or not. Moreover a non-inverting amplifier is chosen so that the amount of current drawn from the guitar pickup itself is minimized.
 \begin{center}\includegraphics[height=8cm]{sch_input.png}\\\small{Figure 1: Schematic - Input Stage}\end{center}
-\tab As for the values of used, we estimate that 150mA is a safe amount of current to flow (even though not much should flow because we have connect it such that not much current will flow). The non-inverting amplifier's R1 and RP2 values are chosen to emulate the typical range of the output impedance of guitar pickups ($5\text{k}\Omega - 25\text{k}\Omega$). Moreover, R4 is chosen to allow an input volume control from 0.5$\times$ to 2.5$\times$
+\tab As for the values of used, we estimate that 150mA is a safe amount of current to flow (even though not much should flow because we have connect it such that not much current will flow). The non-inverting amplifier's R1 and RP2 values are chosen to emulate the typical range of the output impedance of guitar pickups ($5\text{k}\Omega - 25\text{k}\Omega$). Moreover, R4 is chosen to allow an input volume control from 1$\times$ to 3$\times$
 \subsection{Tube Amplification Stages}
 \tab Let us motivate how a tube works a little before diving in. The tube's cathode is heated with the rated voltage to initiate electron generation. The relative voltage between the anode and cathode drives current flow. This is controlled using the potential at the grid that comes in between the cathode \& anode, which resists the flow from cathode across itself before it reaches the anode.\\
 \tab The tube amp stage consists of two \textbf{Class-A Amplifiers} (See the figure below). The tube's three terminals are biased to a DC point of operation by setting the resistances and $V_A$. The point of operation is decided against the characteristic in the data-sheet based on the desired small signal behaviour.
-\begin{center}\includegraphics[height=8cm]{class-a.png}\\\small{Figure 2: Class-A Tube Amplifier}\end{center}
+\begin{center}\includegraphics[height=7cm]{class-a.png}\\\small{Figure 2: Class-A Tube Amplifier}\end{center}
 \tab Going in an orderly fashion from left to right: $R_{GB}$ must be a high resistance that makes the input impedance large ("Hi-Z") and sets the grid's DC point at $0V$. $R_G$ is used to damp oscillations higher than 20kHz. To explain this, we think about what happens once we amplify the AC small signal, the amplified output will cause miller effect making the parasitic capacitance $C_{GA}$ between grid and anode in the tube a large capacitance with which $R_G$ interacts to give a dominant pole in the system. $R_K$ is used to bias the Cathode and control the small signal gain. $R_A$ is used to bias the Anode. We'll discuss the exact calculation of these two resistances soon. $C_B$ is essentially a decoupling capacitor (In-fact, we'll benefit from having several different valued capacitors in parallel combination in-place of $C_B$).\\
-\begin{center}\includegraphics[height=9cm]{sch_tube.png}\\\small{Figure 3: Tube Amp Stage}\end{center}
+\begin{center}\includegraphics[height=10cm]{sch_tube.png}\\\small{Figure 3: Schematic - Tube Amp Stage}\end{center}
 \tab As for calculating and arriving at the values used in the above schematic: note that the second stage is just the first stage without the input handling, hence we use the same values for both. From the above discussion, we may choose any large resistance and capacitance in place of $R_{GB}$ and $C_B$. $R_G$ too just needs to be not too large so that the $f_{-3dB}$ is still above 20kHz. To start with, we may just choose $R_{GB} = 1Meg$, $R_G = 20k$ and $C_B = 33\mu$. To calculate $R_A$, $V_A$ and $R_K$, let us first look at the data-sheet of our 12AX7.\\
 \begin{center}
     \includegraphics[width=0.9\textwidth]{Documentation LaTeX/12ax7.png}\\
@@ -434,15 +434,14 @@ Clearly, there is a trade-off between the maximum $A_v$ we can push for and the 
 If we manage to get a $V_A$ that is not exactly $140V$, we can change $R_A$ accordingly. We can allow a trimpot setup to let $R_K=1k\Omega \text{ to } 3k\Omega$
 \subsection{Tone Control}
 \tab For tone control we aim to have one knob that takes the response form a bass-heavy to a high-presence. To achieve this with only passive elements, a decent amount of hit-and-miss was used by simulating different ideas and values in LTSpice. This was achieved:
-\begin{center}\includegraphics[width=\textwidth]{Documentation LaTeX/response.png}\\\small{Figure 4: Tone Control Response}\end{center}
-\begin{center}\includegraphics[width=0.7\textwidth]{Documentation LaTeX/sch_tone.png}\\\small{Figure 5: Schematic - Tone Control}\end{center}
+\begin{center}\includegraphics[width=\textwidth]{Documentation LaTeX/response.png}\\\small{Figure 5: Tone Control Response}\end{center}
+\begin{center}\includegraphics[width=0.7\textwidth]{Documentation LaTeX/sch_tone.png}\\\small{Figure 6: Schematic - Tone Control}\end{center}
 \subsection{Output Stage}
+\tab By the time we reach here we have possibly amplifies our signal by a gain factor of 250 or so, which is possibly not what a digital practice amplifier or any home speaker is designed to take, unlike having another power amplification stage. This we include a master volume stage that can be tweaked to have gain factors up to $\frac{10}{250}$. The amplifier is protected with a fuse too.
+\begin{center}\includegraphics[width=0.6\textwidth]{Documentation LaTeX/sch_output.png}\\\small{Figure 7: Schematic - Output Stage}\end{center}
 \subsection{Power Regulation}
-    \section{Investigation}
-    \tab 
-    \section{Methodology}
+\tab 12V, -12V, 140V, 6.3V are all the four power lines required in the pedal. Since tubes consume a lot of energy, taking these off from 9V batteries is infeasible, hence we are left with options to either use transformers with AC or use DC adapters and then use DC-DC converter. Since the latter is a more handier option, we'll proceed with it. 
+    \section{Methodology \& Practical Implementation}
     \section{Results}
 
-    \section{Discussion}
-    
 \end{document}
