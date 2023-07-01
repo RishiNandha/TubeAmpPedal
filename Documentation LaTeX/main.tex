@@ -419,8 +419,23 @@ We divide the schematic into 5 sections for convenience:
 \begin{center}\includegraphics[height=8cm]{class-a.png}\\\small{Figure 2: Class-A Tube Amplifier}\end{center}
 \tab Going in an orderly fashion from left to right: $R_{GB}$ must be a high resistance that makes the input impedance large ("Hi-Z") and sets the grid's DC point at $0V$. $R_G$ is used to damp oscillations higher than 20kHz. To explain this, we think about what happens once we amplify the AC small signal, the amplified output will cause miller effect making the parasitic capacitance $C_{GA}$ between grid and anode in the tube a large capacitance with which $R_G$ interacts to give a dominant pole in the system. $R_K$ is used to bias the Cathode and control the small signal gain. $R_A$ is used to bias the Anode. We'll discuss the exact calculation of these two resistances soon. $C_B$ is essentially a decoupling capacitor (In-fact, we'll benefit from having several different valued capacitors in parallel combination in-place of $C_B$).\\
 \begin{center}\includegraphics[height=9cm]{sch_tube.png}\\\small{Figure 3: Tube Amp Stage}\end{center}
-\tab As for calculating and arriving at the values used in the above schematic: note that the second stage is just the first stage without the input handling, hence we use the same values for both. From the above discussion, we may choose any large resistance and capacitance in place of $R_{GB}$ and $C_B$. $R_G$ too just needs to be not too large so that the $f_{-3dB}$ is still above 20kHz. To start with, we may just choose $R_{GB} = 1Meg$, $R_G = 20k$ and $C_B = 33\mu$. To calculate $R_A$ and $R_K$ we first look at the data-sheet of our 12AX7:
+\tab As for calculating and arriving at the values used in the above schematic: note that the second stage is just the first stage without the input handling, hence we use the same values for both. From the above discussion, we may choose any large resistance and capacitance in place of $R_{GB}$ and $C_B$. $R_G$ too just needs to be not too large so that the $f_{-3dB}$ is still above 20kHz. To start with, we may just choose $R_{GB} = 1Meg$, $R_G = 20k$ and $C_B = 33\mu$. To calculate $R_A$, $V_A$ and $R_K$, let us first look at the data-sheet of our 12AX7.\\
+\begin{center}
+    \includegraphics[width=0.9\textwidth]{Documentation LaTeX/12ax7.png}\\
+    \small{Figure 4: 12AX7 Characteristics}
+\end{center}\newpage
+\tab Let us begin with setting Plate Voltage (Anode - Cathode) = $100V$ because of being the safest value with concrete data to work with. Similarly the grid bias could be chosen to be $-1V$. To not restrict the possibilities of trying slightly different characteristics like the ones on the the first graph, we can add a potentiometer to control grid bias upto a variation of $\pm 0.5V$ while keeping all other calculations according to 1V. For the third constraint on our system of 3 parameters, we need to define small signal gain $A_v$. The small signal equation for the Tube Class-A Amplifier is:
+\[i_p = \left(-\frac{v_{\text{out}}}{R_A}\right) = g_m v_\text{in} + \left(-\frac{v_{\text{out}}}{r_p}\right)\]
+\[\implies A_v = g_m\left(R_A \ || \ r_p\right)\]
+\tab According to the first graph, for $100V$ DC plate voltage and $-1V$ DC grid voltage, we will have a plate current of $0.5mA$. Which implies that: \[R_A\left(\frac{0.5}{1000}\right) = V_A - 100\] And also implies that \[R_K\left(\frac{0.5}{1000}\right) = 1\]
+According to the second graph, we have $g_m = 1250 \cdot 10^{-6} \ \Omega^{-1}$ and $r_p = 80k\Omega$. \[A_v = 1.25\cdot(R_{\text{A in k}\Omega} \ || \ 80)\]
+Clearly, there is a trade-off between the maximum $A_v$ we can push for and the minimum $V_A$ we can bring down the make the pedal safer against human errors, but let us settle for the following:\\
+\[\boxed{R_A = 80k\Omega}\\\boxed{V_A = 140V}\\ \boxed{R_K = 2k\Omega}\]
+If we manage to get a $V_A$ that is not exactly $140V$, we can change $R_A$ accordingly. We can allow a trimpot setup to let $R_K=1k\Omega \text{ to } 3k\Omega$
 \subsection{Tone Control}
+\tab For tone control we aim to have one knob that takes the response form a bass-heavy to a high-presence. To achieve this with only passive elements, a decent amount of hit-and-miss was used by simulating different ideas and values in LTSpice. This was achieved:
+\begin{center}\includegraphics[width=\textwidth]{Documentation LaTeX/response.png}\\\small{Figure 4: Tone Control Response}\end{center}
+\begin{center}\includegraphics[width=0.7\textwidth]{Documentation LaTeX/sch_tone.png}\\\small{Figure 5: Schematic - Tone Control}\end{center}
 \subsection{Output Stage}
 \subsection{Power Regulation}
     \section{Investigation}
