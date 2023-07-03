@@ -7,8 +7,11 @@ Input Stage
 
 Tube:
 - Completeness sake, include Rg calculation
-- We can also just use 80V and Drive it if it wont Clip	
+- We can also just use 80V and Drive it if it wont Clip
 - "To be able to work, at the bottom of the curves is what we need"
+- Add another section of calculations to operate at bottom
+- Make it clear on what are choices and what are consequences
+- "Load lines, Choices, Amplification"
 
 Tone Stage:
 - Put calculations on the behaviour even though the motivation was hit-and-miss
@@ -17,3 +20,8 @@ Output Stage:
 - If J2 is high impedance, Just a pot will work in output instead of the OpAmp
 - Again Fuse & Noise
 - Again do dual switch
+- Mention the rationale when to keep and when to bypass. If minimum components already gives the result we need, then go for it
+
+Components:
+- Finding Opamps
+- Finding DC Convertor / Make one
