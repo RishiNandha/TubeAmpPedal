@@ -426,7 +426,7 @@ We divide the schematic into 5 sections for convenience:
 \newpage
 \begin{center}
     \includegraphics[width=\textwidth]{Documentation LaTeX/12ax7.png}\\
-    \small{Figure 4: 12AX7 Characteristics}
+    \small{Figure 3: 12AX7 Characteristics}
 \end{center}
 Note here that operating in the fairly linear part of each line given in the first graph gives us a fairly clean tone. And the distorted tone is achieved by operating at the bottom parts of the graph, which is essentially where the non-linear effects are happening and harmonics of the signal will be generated. This harmonics generation is the very reason why we are choosing to use Tubes to process our Guitar. \newpage
 \subsubsection{Clean Tone}
@@ -462,11 +462,11 @@ In the above schematic, $R_G$ was chosen to be $50k$ just to be on the safer sid
 \tab Note here that the signal was amplified to almost $50$ to $65$ times in the first tube stage. Hence we need to attenuate it at the end. Thus there is a 1 Meg resistance in series with a $50k\Omega$ potentiometer to do the attenuation but also give some control on how much the second stage is driven.
 \newpage\subsection{Output Stage}
 \tab By the time we reach here we have amplified our signal by another factor of 50 or so, which is possibly not what a digital practice amplifier or any home speaker is designed to take. This is the distinction between building a pre-amplifier for an upcoming power amplification stage and building a guitar pedal. The output stage includes a powered path and a passive path. We use the powered path \textbf{1.} When we are still prototyping and need to protect the amplifier with a fuse until the circuit is tried and tested or \textbf{2.} When our practice amplifier is not a "Hi-Z" amplifier in which case the current through the Amplifier will affect our 2nd Tube stage. When the powered path isn't necessary we switch to the passive path so as to cut down on the noise introduced by the powered amplification and fuse. 
-\begin{center}\includegraphics[width=0.6\textwidth]{Documentation LaTeX/sch_output.png}\\\small{Figure 7: Schematic - Output Stage}\end{center}
-\tab The values of potentiometers and resistances were decided so as to give us a master volume factor between 0 to $\frac2{50}$.
+\begin{center}\includegraphics[width=0.9\textwidth]{Documentation LaTeX/sch_output.png}\\\small{Figure 7: Schematic - Output Stage}\end{center}
+\tab The values of potentiometers and resistances were decided so as to give us a master volume factor between 0 to about 0.04.
 \subsection{Power Regulation}
 \tab 12V, 6V, 140V, 6.3V are all the four power lines required in the pedal. Since tubes consume a lot of energy, taking these off from 9V batteries is infeasible, hence we are left with options to either use transformers with AC or use DC adapters and then use DC-DC converter. Since the latter is a more handier option, we'll proceed with it. Below are the methods used to get these power lines. 
-\begin{center}\includegraphics[width=0.6\textwidth]{Documentation LaTeX/sch_power.png}\\\small{Figure 7: Schematic - Output Stage}\end{center}
+\begin{center}\includegraphics[width=0.9\textwidth]{Documentation LaTeX/sch_power.png}\\\small{Figure 8: Schematic - Power Management}\end{center}
     \section{Methodology \& Practical Implementation}
     \section{Results}
 
