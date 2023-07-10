@@ -419,34 +419,54 @@ We divide the schematic into 5 sections for convenience:
 \subsection{Tube Amplification Stages}
 \tab Let us motivate how a tube works a little before diving in. The tube's cathode is heated with the rated voltage to initiate electron generation. The relative voltage between the anode and cathode drives current flow. This is controlled using the potential at the grid that comes in between the cathode \& anode, which resists the flow from cathode across itself before it reaches the anode.\\
 \tab The tube amp stage consists of two \textbf{Class-A Amplifiers} (See the figure below). The tube's three terminals are biased to a DC point of operation by setting the resistances and $V_A$. The point of operation is decided against the characteristic in the data-sheet based on the desired small signal behaviour.
-\begin{center}\includegraphics[height=7cm]{class-a.png}\\\small{Figure 2: Class-A Tube Amplifier}\end{center}
+\begin{center}\includegraphics[height=9cm]{class-a.png}\\\small{Figure 2: Class-A Tube Amplifier}\end{center}
 \tab Going in an orderly fashion from left to right: $R_{GB}$ must be a high resistance that makes the input impedance large ("Hi-Z") and sets the grid's DC point at $0V$. $R_G$ is used to damp oscillations higher than 20kHz. To explain this, we think about what happens once we amplify the AC small signal, the amplified output will cause miller effect making the parasitic capacitance $C_{GA}$ between grid and anode in the tube a large capacitance with which $R_G$ interacts to give a dominant pole in the system. $R_K$ is used to bias the Cathode. $R_A$ is used to bias the Anode  and control the small signal gain . We'll discuss the exact calculation of these two resistances soon. $C_B$ is essentially a decoupling capacitor (In-fact, we'll benefit from having several different valued capacitors in parallel combination in-place of $C_B$).\\
 
-\tab Let us calculate two different set of values for the resistances by setting the value of $V_a = 140V$ as our starting point: One for a fairly clean tone; One for a characteristic distorted tone. Then let us add potentiometers to switch between the two accordingly and resistance values that work for both of them accordingly. As for calculating and arriving at the values used in the above schematic: note that the second stage is just the first stage without the input handling, hence we use the same values for both.
-
-\begin{center}\includegraphics[height=10cm]{sch_tube.png}\\\small{Figure 3: Schematic - Tube Amp Stage}\end{center}
-\tab  From the above discussion, we may choose any large resistance and capacitance in place of $R_{GB}$ and $C_B$. $R_G$ too just needs to be not too large so that the $f_{-3dB}$ is still above 20kHz. To start with, we may just choose $R_{GB} = 1Meg$, $R_G = 20k$ and $C_B = 33\mu$. To calculate $R_A$, $V_A$ and $R_K$, let us first look at the data-sheet of our 12AX7.\\
+\tab Let us calculate two different set of values for the resistances by setting the value of $V_a = 140V$ as our starting point: One for a fairly clean tone; One for a characteristic distorted tone. This choice of $V_a$ allows for a maximum output voltage a $140V$ after the two amplification stages and anymore will clip. Then let us add potentiometers to switch between the two accordingly and resistance values that work for both of them accordingly. Note that the second stage is just the first stage without the input handling, hence we use the same values for both. Also we can set $R_{GB} = 1Meg \ ; \ C_B = 33\mu$ for both cases. Before we dive into the calculations we also attach the important characteristics from the 12AX7 data-sheet that we will be constantly referring to for calculations purposes.
+\newpage
 \begin{center}
-    \includegraphics[width=0.9\textwidth]{Documentation LaTeX/12ax7.png}\\
+    \includegraphics[width=\textwidth]{Documentation LaTeX/12ax7.png}\\
     \small{Figure 4: 12AX7 Characteristics}
-\end{center}\newpage
-\tab Let us begin with setting Plate Voltage (Anode - Cathode) = $100V$ because of being the safest value with concrete data to work with. Similarly the grid bias could be chosen to be $-1V$. To not restrict the possibilities of trying slightly different characteristics like the ones on the the first graph, we can add a potentiometer to control grid bias upto a variation of $\pm 0.5V$ while keeping all other calculations according to 1V. For the third constraint on our system of 3 parameters, we need to define small signal gain $A_v$. The small signal equation for the Tube Class-A Amplifier is:
+\end{center}
+Note here that operating in the fairly linear part of each line given in the first graph gives us a fairly clean tone. And the distorted tone is achieved by operating at the bottom parts of the graph, which is essentially where the non-linear effects are happening and harmonics of the signal will be generated. This harmonics generation is the very reason why we are choosing to use Tubes to process our Guitar. \newpage
+\subsubsection{Clean Tone}
+%\begin{center}\includegraphics[height=10cm]{sch_tube.png}\\\small{Figure 3: Schematic - Tube Amp Stage}\end{center}
+\tab Let us begin with setting Plate Voltage (Anode - Cathode) = $100V$ because of having concrete data to work with. Similarly the grid bias could be chosen to be $-1V$. This sets us into a region on the first graph where the behaviour is fairly linear. We need to define small signal gain $A_v$. The small signal equation for the Tube Class-A Amplifier is:
 \[i_p = \left(-\frac{v_{\text{out}}}{R_A}\right) = g_m v_\text{in} + \left(-\frac{v_{\text{out}}}{r_p}\right)\]
 \[\implies A_v = g_m\left(R_A \ || \ r_p\right)\]
-\tab According to the first graph, for $100V$ DC plate voltage and $-1V$ DC grid voltage, we will have a plate current of $0.5mA$. Which implies that: \[R_A\left(\frac{0.5}{1000}\right) = V_A - 100\] And also implies that \[R_K\left(\frac{0.5}{1000}\right) = 1\]
-According to the second graph, we have $g_m = 1250 \cdot 10^{-6} \ \Omega^{-1}$ and $r_p = 80k\Omega$. \[A_v = 1.25\cdot(R_{\text{A in k}\Omega} \ || \ 80)\]
-Clearly, there is a trade-off between the maximum $A_v$ we can push for and the minimum $V_A$ we can bring down the make the pedal safer against human errors, but let us settle for the following:\\
-\[\boxed{R_A = 80k\Omega}\\\boxed{V_A = 140V}\\ \boxed{R_K = 2k\Omega}\]
-If we manage to get a $V_A$ that is not exactly $140V$, we can change $R_A$ accordingly. We can allow a trimpot setup to let $R_K=1k\Omega \text{ to } 3k\Omega$
+\tab According to the first graph, for $100V$ DC plate voltage and $-1V$ DC grid voltage, we will have a plate current of $0.5mA$. Which implies that: \[R_A\left(\frac{0.5}{1000}\right) = 140 - 100\] And also implies that \[R_K\left(\frac{0.5}{1000}\right) = 1\]
+Thus for $V_A = 140V, E_P = 100V, V_G = -1V$, we have: 
+\[\boxed{R_{A} = 80k\Omega}\\\boxed{R_{K} = 2k\Omega}\]
+According to the second graph, we have $g_m = 1250 \cdot 10^{-6} \ \Omega^{-1}$ and $r_p = 80k\Omega$. \[A_v = 1.25\cdot40 = 50\]
+Clipping occurs when $100 + 50V_i < 140V$ as long as the input is smaller than 0.8V, which it is. Further, for the choice of $R_G$ we need to consider the parasitic capacitance between the Anode and Grid $C_AG$ (found in the data-sheet) which due to miller effect will have an apparent capacitance of $A_vC_{AG}$. Although the exact transfer function between the input and the output is complicated, we can simply mention here without proof that the dominant pole is associated with the interaction of $R_G$ and $A_vC_{AG}$ hence we choose an $R_G$ such that \[\frac{1}{2 \pi R_G (50) C_{AG}} > 20 kHz \implies \boxed{R_G < 93k}\]
+
+\subsubsection{Distorted Tone}
+\tab Like mentioned earlier we need to operate at the bottom non-linear region of the characteristics. Let us proceed by choosing the operating point of $I_P = 0.25 mA$, with $V_G=-1V$ and $V_P = 75V$. This is a nice common point for us since it lies almost right in between our dynamic range. 
+\[R_A\left(\frac{0.25}{1000}\right) = 140 - 75\] And also implies that \[R_K\left(\frac{0.2}{1000}\right) = 1\]
+Thus for $V_A = 140V, E_P = 75V, V_G = -1V$, we have: 
+\[\boxed{R_{A} = 260k\Omega}\\\boxed{R_{K} = 5k\Omega}\]
+Second graph doesn't have data for our chosen point of operation direction. But since visually the curves seem as if the $E_P$ is just shifting the curves to the left, let us proceed with the same assumption. Thus we can estimate $g_m = 0.775 \cdot 10^{-6} S$ and $r_p = 120k\Omega$\[A_v = 0.775\cdot82 = 63.55\]
+So we need to have $75 + 63.55\cdot V_i < 140$ which will hold good. And for $R_G$, we have:
+\[\frac{1}{2 \pi R_G (63.55) C_{AG}} > 20 kHz \implies \boxed{R_G < 73k}\]
+
+\subsection{Combining Both}
+\begin{center}
+\includegraphics[height=13cm]{Documentation LaTeX/sch_tube.png}\\\small{Figure 4: Schematic - Tube Amplification Stages}
+\end{center}
+In the above schematic, $R_G$ was chosen to be $50k$ just to be on the safer side with not scooping out audible frequencies. $R_K$ has been made a combination of a $2k\Omega$ resistor and a $3k\Omega$ potentiometer. $R_A$ has been made a combination of an $80k\Omega$ resistance and a $200k\Omega$ potentiometer. This allows us to transition to both the configurations with also an option to explore other possibilities like reducing the grid bias alone while keeping the $R_A$ unchanged or changing $R_A$ alone while keeping $R_K$ unchanged. \newpage
 \subsection{Tone Control}
-\tab For tone control we aim to have one knob that takes the response form a bass-heavy to a high-presence. To achieve this with only passive elements, a decent amount of hit-and-miss was used by simulating different ideas and values in LTSpice. This was achieved:
+\tab For tone control we aim to have one knob that takes the response form a bass-heavy to a high-presence. To achieve this with only passive elements, a decent amount of hit-and-miss was used by simulating different ideas and values in LTSpice. This was achieved using LTSpice:
 \begin{center}\includegraphics[width=\textwidth]{Documentation LaTeX/response.png}\\\small{Figure 5: Tone Control Response}\end{center}
-\begin{center}\includegraphics[width=0.7\textwidth]{Documentation LaTeX/sch_tone.png}\\\small{Figure 6: Schematic - Tone Control}\end{center}
-\subsection{Output Stage}
-\tab By the time we reach here we have possibly amplifies our signal by a gain factor of 250 or so, which is possibly not what a digital practice amplifier or any home speaker is designed to take, unlike having another power amplification stage. This we include a master volume stage that can be tweaked to have gain factors up to $\frac{10}{250}$. The amplifier is protected with a fuse too.
+\begin{center}\includegraphics[width=0.6\textwidth]{Documentation LaTeX/sch_tone.png}\\\small{Figure 6: Schematic - Tone Control}\end{center}
+\tab Although this was achieved with hit-and-miss and LTSpice simulation, this isn't to say there is not motivation behind this. Note that we can't use a simple bandpass owing to the fact that the signal coming out of the amplifier's first stage has a passive highpass for AC coupling. But we can try to cascade this with two paths resembling a low pass and a high pass respectively but with a potentiometer to control the response and a resistance in series with C6 to avoid having a purely capacitive path (otherwise AC coupling won't happen). We include the transfer function below for completeness. \[\textbf{Work} = \frac{\textbf{In}}{\textbf{Progress}}\]
+\tab Note here that the signal was amplified to almost $50$ to $65$ times in the first tube stage. Hence we need to attenuate it at the end. Thus there is a 1 Meg resistance in series with a $50k\Omega$ potentiometer to do the attenuation but also give some control on how much the second stage is driven.
+\newpage\subsection{Output Stage}
+\tab By the time we reach here we have amplified our signal by another factor of 50 or so, which is possibly not what a digital practice amplifier or any home speaker is designed to take. This is the distinction between building a pre-amplifier for an upcoming power amplification stage and building a guitar pedal. The output stage includes a powered path and a passive path. We use the powered path \textbf{1.} When we are still prototyping and need to protect the amplifier with a fuse until the circuit is tried and tested or \textbf{2.} When our practice amplifier is not a "Hi-Z" amplifier in which case the current through the Amplifier will affect our 2nd Tube stage. When the powered path isn't necessary we switch to the passive path so as to cut down on the noise introduced by the powered amplification and fuse. 
 \begin{center}\includegraphics[width=0.6\textwidth]{Documentation LaTeX/sch_output.png}\\\small{Figure 7: Schematic - Output Stage}\end{center}
+\tab The values of potentiometers and resistances were decided so as to give us a master volume factor between 0 to $\frac2{50}$.
 \subsection{Power Regulation}
-\tab 12V, -12V, 140V, 6.3V are all the four power lines required in the pedal. Since tubes consume a lot of energy, taking these off from 9V batteries is infeasible, hence we are left with options to either use transformers with AC or use DC adapters and then use DC-DC converter. Since the latter is a more handier option, we'll proceed with it. 
+\tab 12V, 6V, 140V, 6.3V are all the four power lines required in the pedal. Since tubes consume a lot of energy, taking these off from 9V batteries is infeasible, hence we are left with options to either use transformers with AC or use DC adapters and then use DC-DC converter. Since the latter is a more handier option, we'll proceed with it. Below are the methods used to get these power lines. 
+\begin{center}\includegraphics[width=0.6\textwidth]{Documentation LaTeX/sch_power.png}\\\small{Figure 7: Schematic - Output Stage}\end{center}
     \section{Methodology \& Practical Implementation}
     \section{Results}
 
