@@ -480,6 +480,12 @@ Further for $R_K$, we have:
 \begin{center}\includegraphics[width=\textwidth]{Documentation LaTeX/sch_power.png}\\\small{Figure 8: Schematic - Power Management}\end{center}
 \tab Choosing the fuse is a balance between safety and allowing the pedal draw more when required. The current drawn from the 140V line is about $4 mA$ in total. If we consider above $10 mA$ to be dangerous, we may choose a $10 mA$ fuse on this line. For the total amount of current in everything combined, we can limit it to not more than $0.1A$ just as a rough estimate.  
     \section{Methodology \& Practical Implementation}
+    \subsection{Testing Power Regulators}
+    To test if all the power regulators are able to deliver the current required and work with an acceptable dropout, we estimate the load on each power-line and add equivalent resist.
+    \begin{enumerate}
+    \item \textbf{Buck Converter 12V to 6.3V:} From the 12AT7 data sheet, we can see that the current drawn from the 6.3V line will be 
+        \item \textbf{Mains AC to 12V DC Adapter:} Major loads on the AC to DC 12V Adapter are the R1-R3 voltage divider, Power lines of Op-Amps U1.2 and U2.1, the U4 Boost Converter and the U5 Buck. R1+R3 gives an equivalent conductance of about $0.1 m\Omega^{-1}$. From the data sheet of LM358 we can estimate the Quiescent Current drawn by the Op-Amps to be roughly around $2\cdot550$ mA. In the spirit of slightly overestimating the current drawn, we can assume the converters to be ideal. 
+    \end{enumerate}
     \section{Results}
 
 \end{document}
